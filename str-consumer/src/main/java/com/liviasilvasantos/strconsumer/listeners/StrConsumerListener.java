@@ -1,6 +1,7 @@
 package com.liviasilvasantos.strconsumer.listeners;
 
 import com.liviasilvasantos.strconsumer.custom.StrConsumerCustomListener;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -11,9 +12,11 @@ public class StrConsumerListener {
     //    @KafkaListener(groupId = "group-01", topicPartitions = {
 //            @TopicPartition(topic = "str-topic", partitions = {"0"})
 //    }, containerFactory = "strContainerFactory")
+    @SneakyThrows
     @StrConsumerCustomListener(groupId = "group-01")
     public void listener(final String message) {
         log.info("message received {}", message);
+        throw new IllegalAccessException("exception!!!");
     }
 
     //    @KafkaListener(groupId = "group-01", topicPartitions = {
