@@ -1,6 +1,7 @@
 package com.liviasilvasantos.strconsumer.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -9,11 +10,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.RecordInterceptor;
 
 import java.util.HashMap;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class StringConsumerConfig {
 
     private final KafkaProperties kafkaProperties;
@@ -34,5 +37,25 @@ public class StringConsumerConfig {
         var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
         factory.setConsumerFactory(consumerFactory);
         return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> interceptMessageContainerFactory(
+            final ConsumerFactory<String, String> consumerFactory
+    ) {
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
+        factory.setConsumerFactory(consumerFactory);
+        factory.setRecordInterceptor(interceptMessage());
+        return factory;
+    }
+
+    private RecordInterceptor<String, String> interceptMessage() {
+        return record -> {
+            if(record.value().contains("Teste")){
+                log.info("possui a palavra teste");
+                return record;
+            }
+            return record;
+        };
     }
 }

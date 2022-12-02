@@ -26,7 +26,7 @@ public class StrConsumerListener {
 
     //    @KafkaListener(groupId = "group-02", topics = "str-topic",
 //    containerFactory ="strContainerFactory")
-    @StrConsumerCustomListener(groupId = "group-02")
+    @StrConsumerCustomListener(groupId = "group-02", containerFactory = "interceptMessageContainerFactory")
     public void extra(final String message) {
         log.info("EXTRA :: message received {}", message);
     }
