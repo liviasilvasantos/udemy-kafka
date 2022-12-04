@@ -1,18 +1,20 @@
 package com.liviasilvasantos.jsonconsumer.model;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
 
 @Getter
-@Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Payment implements Serializable {
 
-    private final Long id;
-    private final Long idUser;
-    private final Long idProduct;
-    private final String cardNumber;
+    private Long id;
+    private Long idUser;
+    private Long idProduct;
+    private String cardNumber;
 }
